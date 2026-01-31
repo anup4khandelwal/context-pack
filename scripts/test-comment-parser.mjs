@@ -4,6 +4,7 @@ import { execFileSync } from "node:child_process";
 const run = (body) => {
   const out = execFileSync("node", ["integrations/github-action/parse-command.mjs", body], {
     encoding: "utf8",
+    env: { ...process.env, GITHUB_OUTPUT: "" },
   }).trim();
   return JSON.parse(out);
 };
