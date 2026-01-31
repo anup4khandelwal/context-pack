@@ -87,5 +87,5 @@ See `RELEASE.md` for the full checklist.
 ## Integrations
 
 - MCP server: `integrations/mcp/README.md`
-- GitHub Action (PR comment): `integrations/github-action/README.md`
-- VS Code extension: `integrations/vscode/README.md`
+- Claude Code: `integrations/claude-code/README.md`
+- Codex workflows: `integrations/codex/README.md`

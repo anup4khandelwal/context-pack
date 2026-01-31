@@ -7,12 +7,19 @@ This folder exposes a stdio MCP server with the tool `context_pack_bundle`.
 ```bash
 cd integrations/mcp
 npm install
+npm run build
 ```
 
 ## Run locally
 
 ```bash
-node server.mjs
+node dist/server.js
+```
+
+## Smoke test
+
+```bash
+npm run smoke
 ```
 
 ## Tool
@@ -31,10 +38,8 @@ Returns:
 
 ## Codex CLI registration
 
-Example:
-
 ```bash
-codex mcp add context-pack --command "node /absolute/path/to/integrations/mcp/server.mjs"
+codex mcp add context-pack --command "node /absolute/path/to/integrations/mcp/dist/server.js"
 ```
 
 List:
