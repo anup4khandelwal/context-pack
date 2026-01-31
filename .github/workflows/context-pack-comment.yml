@@ -1,0 +1,117 @@
+name: Context Pack (PR comment)
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  context-pack:
+    if: ${{ github.event.issue.pull_request != null }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect comment
+        id: inspect
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment.body || "";
+            const command = comment.split(/\r?\n/).find(line => line.trim().startsWith('/context-pack'));
+            if (!command) {
+              core.setOutput('run', 'false');
+              return;
+            }
+            const issueNumber = context.payload.issue.number;
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: issueNumber,
+            });
+            const commenter = context.payload.comment.user.login;
+            const prAuthor = pr.user.login;
+            const association = context.payload.comment.author_association;
+            const allowed = ['OWNER','MEMBER','COLLABORATOR'].includes(association) || commenter === prAuthor;
+            const isFork = pr.head.repo.fork;
+            core.setOutput('run', allowed && !isFork ? 'true' : 'false');
+            core.setOutput('comment_body', comment);
+            core.setOutput('sha', pr.head.sha);
+            core.setOutput('ref', pr.head.ref);
+            core.setOutput('repo_full', pr.head.repo.full_name);
+            core.setOutput('pr_number', issueNumber);
+            core.setOutput('run_url', `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`);
+      - name: Stop if not allowed
+        if: steps.inspect.outputs.run != 'true'
+        run: echo "Skipping context-pack"
+      - name: Checkout PR
+        if: steps.inspect.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.inspect.outputs.repo_full }}
+          ref: ${{ steps.inspect.outputs.ref }}
+      - name: Setup Node
+        if: steps.inspect.outputs.run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        if: steps.inspect.outputs.run == 'true'
+        run: npm ci
+      - name: Build
+        if: steps.inspect.outputs.run == 'true'
+        run: npm run build
+      - name: Parse command
+        if: steps.inspect.outputs.run == 'true'
+        id: parse
+        env:
+          COMMENT_BODY: ${{ steps.inspect.outputs.comment_body }}
+        run: node integrations/github-action/parse-command.mjs >> $GITHUB_OUTPUT
+      - name: Run context-pack
+        if: steps.inspect.outputs.run == 'true'
+        env:
+          TASK: ${{ steps.parse.outputs.task }}
+          BUDGET: ${{ steps.parse.outputs.budget }}
+        run: |
+          if [ -z "$BUDGET" ]; then
+            node dist/index.js bundle --task "$TASK" --out .context-pack
+          else
+            node dist/index.js bundle --task "$TASK" --budget "$BUDGET" --out .context-pack
+          fi
+      - name: Upload artifact
+        if: steps.inspect.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: context-pack-${{ steps.inspect.outputs.pr_number }}
+          path: .context-pack
+      - name: Comment on PR
+        if: steps.inspect.outputs.run == 'true'
+        uses: actions/github-script@v7
+        env:
+          RUN_URL: ${{ steps.inspect.outputs.run_url }}
+          PR_NUMBER: ${{ steps.inspect.outputs.pr_number }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const bundlePath = path.join(process.cwd(), '.context-pack', 'bundle.md');
+            const explainPath = path.join(process.cwd(), '.context-pack', 'explain.md');
+            const maxLen = 60000;
+            let bundle = fs.readFileSync(bundlePath, 'utf8');
+            const explain = fs.readFileSync(explainPath, 'utf8');
+            let body = '## Context Pack generated\n';
+            if (bundle.length > maxLen) {
+              body += `Bundle too large for comment. See artifact in workflow run: ${process.env.RUN_URL}\n\n`;
+              bundle = bundle.slice(0, maxLen) + '\n\n[truncated]';
+            }
+            body += `<details><summary>bundle.md</summary>\n\n\n\n${bundle}\n\n\n\n</details>\n`;
+            body += `<details><summary>explain.md</summary>\n\n\n\n${explain}\n\n\n\n</details>\n`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER),
+              body,
+            });

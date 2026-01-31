@@ -83,3 +83,9 @@ See `RELEASE.md` for the full checklist.
 - Codex workflows: `docs/codex.md`
 - Claude Code plugin wrapper: `docs/claude-plugin.md`
 - Release checklist: `RELEASE.md`
+
+## Integrations
+
+- MCP server: `integrations/mcp/README.md`
+- GitHub Action (PR comment): `integrations/github-action/README.md`
+- VS Code extension: `integrations/vscode/README.md`

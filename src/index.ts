@@ -36,9 +36,18 @@ export function buildCli() {
     .requiredOption("--task <task>", "Task description")
     .option("--repo <path>", "Repository path", process.cwd())
     .option("--budget <tokens>", "Token budget")
+    .option("--out <path>", "Output directory (default: .context-pack)")
     .option("--rules <path>", "Rules JSON file")
     .option("--include-tests", "Include test files")
-    .action((options: { task: string; repo: string; budget?: string; rules?: string; includeTests?: boolean }) => {
+    .action(
+      (options: {
+        task: string;
+        repo: string;
+        budget?: string;
+        out?: string;
+        rules?: string;
+        includeTests?: boolean;
+      }) => {
       const repoPath = resolveRepo(options.repo);
       const rules = loadRules(options.rules);
       const budget = parseBudget(options.budget, rules.budget.defaultTokens);
@@ -47,7 +56,7 @@ export function buildCli() {
       const ranked = rankFiles(repoPath, options.task, entries, rules);
       const bundle = buildBundle(repoPath, options.task, ranked, budget, rules);
 
-      const outDir = resolveOutDir(repoPath);
+      const outDir = options.out ? path.resolve(repoPath, options.out) : resolveOutDir(repoPath);
       ensureDir(outDir);
       writeBundleMarkdown(bundle, path.join(outDir, "bundle.md"));
       writeBundleJson(bundle, path.join(outDir, "bundle.json"));

@@ -30,6 +30,7 @@
     "bundle": "esbuild src/index.ts --bundle --platform=node --target=node18 --outfile=dist/context-pack.js --banner:js='#!/usr/bin/env node'",
     "lint": "echo 'no lint configured'",
     "test": "vitest run",
+    "test:comment-parser": "node scripts/test-comment-parser.mjs",
     "smoke": "node scripts/smoke.mjs",
     "docs:dev": "vitepress dev docs-site",
     "docs:build": "vitepress build docs-site",
