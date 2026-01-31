@@ -40,3 +40,9 @@ LLMs degrade when given too much or irrelevant code. `context-pack` deterministi
 - `context-pack bundle --task "<task>" [--budget N]`
 - `context-pack scan --task "<task>"`
 - `context-pack explain`
+
+## Integrations
+
+- MCP server: `integrations/mcp/README.md`
+- GitHub Action (PR comment): `integrations/github-action/README.md`
+- VS Code extension: `integrations/vscode/README.md`

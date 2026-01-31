@@ -7,12 +7,14 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Guide", link: "/" },
+      { text: "Integrations", link: "/integrations" },
       { text: "Release", link: "/release" }
     ],
     sidebar: [
       { text: "Overview", link: "/" },
       { text: "Codex", link: "/codex" },
       { text: "Claude Plugin", link: "/claude-plugin" },
+      { text: "Integrations", link: "/integrations" },
       { text: "Release", link: "/release" }
     ]
   }
