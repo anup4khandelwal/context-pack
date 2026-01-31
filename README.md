@@ -1,8 +1,17 @@
 # context-pack
 
+![CI](https://github.com/anup4khandelwal/context-pack/actions/workflows/ci.yml/badge.svg)
+![npm](https://img.shields.io/npm/v/context-pack)
+
 Prepare an optimal, task-specific context bundle from a repository for Claude Code and OpenAI Codex.
 
-## 15-second quickstart
+## Install
+
+```bash
+npm install -g context-pack
+```
+
+## Quickstart
 
 Global install:
 
@@ -59,6 +68,15 @@ context-pack explain
 ```
 
 See `docs/examples/` for sample outputs.
+
+## Troubleshooting
+
+- Ensure you ran `npm run build` before invoking the CLI from `dist/`.
+- If the bundle is empty, try increasing `--budget` or refining the task description.
+
+## How to release
+
+See `RELEASE.md` for the full checklist.
 
 ## Docs
 
