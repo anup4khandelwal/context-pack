@@ -1,0 +1,34 @@
+{
+  "task": "Add caching to user lookup",
+  "budget": 14000,
+  "estimatedTokens": 320,
+  "filesIncluded": 2,
+  "filesSkipped": 0,
+  "files": [
+    {
+      "path": "src/userRepo.ts",
+      "score": 14,
+      "reasons": ["filename matches 'user'", "content matches 1 task tokens"],
+      "scoreBreakdown": [
+        {"label": "filename:user", "score": 6},
+        {"label": "content-match", "score": 2}
+      ],
+      "estimatedTokens": 180,
+      "sizeBytes": 120,
+      "mode": "full",
+      "content": "export async function getUser(id: string) {\n  return db.users.find(id);\n}"
+    },
+    {
+      "path": "src/cache.ts",
+      "score": 6,
+      "reasons": ["filename matches 'cache'"],
+      "scoreBreakdown": [
+        {"label": "filename:cache", "score": 6}
+      ],
+      "estimatedTokens": 140,
+      "sizeBytes": 90,
+      "mode": "full",
+      "content": "export function cacheGet(key: string) {\n  return memory.get(key);\n}"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "context-pack",
+  "version": "0.1.0",
+  "description": "Generate task-specific context bundles for Claude Code.",
+  "entrypoint": "scripts/pack.sh",
+  "skills": [
+    "skills/context-pack/SKILL.md"
+  ]
+}

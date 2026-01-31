@@ -1,0 +1,148 @@
+{
+  "budget": {
+    "defaultTokens": 14000,
+    "tokenCharsPerToken": 4,
+    "maxFileTokens": 4000,
+    "trimChars": 8000,
+    "signatureMaxLines": 200
+  },
+  "weights": {
+    "filenameMatch": 6,
+    "pathMatch": 3,
+    "contentMatchPerToken": 2,
+    "contentMatchMax": 12,
+    "gitHistoryMax": 20,
+    "gitRecentBoost": 8,
+    "cochangeBoost": 4,
+    "dependencyProximity": 4,
+    "dirProximityMax": 3,
+    "structuralEntrypoint": 6,
+    "structuralConfig": 5,
+    "structuralManifest": 5
+  },
+  "limits": {
+    "maxCommits": 200,
+    "maxFiles": 5000,
+    "recentCommits": 20,
+    "binarySampleBytes": 4096
+  },
+  "ignore": {
+    "default": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      "out/**",
+      "vendor/**",
+      ".git/**",
+      ".context-pack/**"
+    ],
+    "tests": [
+      "**/__tests__/**",
+      "**/*.test.*",
+      "**/*.spec.*",
+      "**/test/**",
+      "**/tests/**"
+    ]
+  },
+  "structural": {
+    "entrypoints": [
+      "src/index.ts",
+      "src/main.ts",
+      "src/cli.ts",
+      "index.ts",
+      "main.ts",
+      "app.ts",
+      "server.ts",
+      "src/server.ts"
+    ],
+    "configFiles": [
+      "tsconfig.json",
+      "eslint.config.js",
+      ".eslintrc",
+      ".prettierrc",
+      "vitest.config.ts",
+      "jest.config.js",
+      "vite.config.ts"
+    ],
+    "manifests": [
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock",
+      "pyproject.toml",
+      "go.mod",
+      "Cargo.toml"
+    ]
+  },
+  "dependency": {
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".cjs",
+      ".py",
+      ".go",
+      ".rs",
+      ".java",
+      ".kt"
+    ]
+  },
+  "files": {
+    "textExtensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".cjs",
+      ".json",
+      ".md",
+      ".txt",
+      ".yaml",
+      ".yml",
+      ".toml",
+      ".py",
+      ".go",
+      ".rs",
+      ".java",
+      ".kt",
+      ".c",
+      ".h",
+      ".cpp",
+      ".hpp",
+      ".html",
+      ".css",
+      ".scss",
+      ".sql",
+      ".sh",
+      ".rb",
+      ".php",
+      ".swift"
+    ],
+    "signaturePatterns": {
+      "ts": [
+        "^\\\\s*export\\\\s+",
+        "^\\\\s*(export\\\\s+)?(class|function|interface|type|const|let|var)\\\\s+\\\\w+"
+      ],
+      "py": [
+        "^\\\\s*(def|class)\\\\s+\\\\w+"
+      ],
+      "go": [
+        "^\\\\s*(func|type)\\\\s+\\\\w+"
+      ],
+      "rs": [
+        "^\\\\s*(pub\\\\s+)?(fn|struct|enum|trait|mod)\\\\s+\\\\w+"
+      ],
+      "java": [
+        "^\\\\s*(public|private|protected)?\\\\s*(class|interface|enum)\\\\s+\\\\w+",
+        "^\\\\s*import\\\\s+"
+      ],
+      "kt": [
+        "^\\\\s*(public|private|protected)?\\\\s*(class|interface|enum|fun)\\\\s+\\\\w+",
+        "^\\\\s*import\\\\s+"
+      ]
+    }
+  }
+}
