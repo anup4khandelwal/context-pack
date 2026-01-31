@@ -4,7 +4,7 @@
   "description": "Task-specific context bundle generator for Claude Code / Codex",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anup4khandelwal/context-pack.git"
+    "url": "git+https://github.com/anup4khandelwal/context-pack.git"
   },
   "homepage": "https://anup4khandelwal.github.io/context-pack/",
   "bugs": {
