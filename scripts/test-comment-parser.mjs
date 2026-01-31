@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
 const run = (body) => {
-  const out = execSync(`node integrations/github-action/parse-command.mjs "${body.replace(/"/g, '\\"')}"`, {
+  const out = execFileSync("node", ["integrations/github-action/parse-command.mjs", body], {
     encoding: "utf8",
   }).trim();
   return JSON.parse(out);
