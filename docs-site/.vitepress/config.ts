@@ -8,6 +8,7 @@ export default defineConfig({
     nav: [
       { text: "Guide", link: "/" },
       { text: "Integrations", link: "/integrations" },
+      { text: "Contributing", link: "/contributing" },
       { text: "Release", link: "/release" }
     ],
     sidebar: [
@@ -15,6 +16,7 @@ export default defineConfig({
       { text: "Codex", link: "/codex" },
       { text: "Claude Plugin", link: "/claude-plugin" },
       { text: "Integrations", link: "/integrations" },
+      { text: "Contributing", link: "/contributing" },
       { text: "Release", link: "/release" }
     ]
   }
